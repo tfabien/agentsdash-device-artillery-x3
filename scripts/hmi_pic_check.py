@@ -4,7 +4,7 @@
 Needs hmi_bridge on the ESP32 and the .tft that holds the sprites. Expected: top row = 8 big looks
 (lead, general, explore, plan, review, test, code, generic), bottom row = the same 8 small. A reply
 other than 01 for an id means that picture is missing in the project.
-Usage: python devices/artillery-x3-esp32/scripts/hmi_pic_check.py [COM3]
+Usage: python scripts/hmi_pic_check.py [COM3]
 """
 import struct
 import sys

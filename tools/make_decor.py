@@ -2,7 +2,7 @@
 
 The screen draws pictures and text only: rounded corners and panels come from these PNGs.
 Spec: docs/superpowers/specs/2026-11-11-screen-redesign-design.md (zones, palette, picture ids).
-Usage: python devices/artillery-x3-esp32/tools/make_decor.py [--out devices/artillery-x3-esp32/assets/decor]
+Usage: python tools/make_decor.py [--out assets/decor]
 """
 import argparse
 import os

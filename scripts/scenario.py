@@ -5,7 +5,7 @@
 three smaller ones. Then a short timeline changes commands and states; it ends with "docs-site" still the only
 session that needs the user, so the gadget selects it by default.
 
-Usage: python devices/artillery-x3-esp32/scripts/scenario.py [--host 192.168.1.100] [--speed 1] [--loop]
+Usage: python scripts/scenario.py [--host 192.168.1.100] [--speed 1] [--loop]
 Every request carries the header X-Gadget-Test (accepted by normal builds, needed by isolated test builds).
 """
 import argparse

@@ -5,7 +5,7 @@ never touches the network.
 
 ```
  Claude Code hooks ──POST /event──> CORE ──display.h──> SCREEN ──UART 115200──> HMI screen
- (plugin/)                        model + net         display_hmi + layout + touch + hmi_uart
+ (adapter)                        model + net         display_hmi + layout + touch + hmi_uart
                                          ^                         │
                                          └──── modelSelect() <─────┘ (taps)
 ```
@@ -20,16 +20,16 @@ never touches the network.
 
 ### Wire format
 
-`POST /event` v2 (ASCII JSON, sent by the plugin):
+`POST /event` v2 (ASCII JSON, sent by the hub or an adapter):
 `{"v":2,"session":"<id4>","project":"<=14 chars","agent":"lead"|"<id4>","role":"lead"|"<agent_type>","evt":"<hook name>","state":"working|needs_you|your_turn|done|error","cmd":"<=63 chars","detail":"<=60 chars"}`.
 Every event carries the full state of its agent, so the next event repairs a gadget that rebooted.
 A body without `"v"` is the old `{"agent","state","task"}` (a one-agent session). Errors: 400 with a text body.
 
-Optional usage fields on v2 events (plugin, read from the transcripts): `"tok"` (tokens of this agent) and, on lead
+Optional usage fields on v2 events (adapter, read from the transcripts): `"tok"` (tokens of this agent) and, on lead
 events, `"stok"` (session total), `"ctx_pct"`, `"ctx_k"` (context estimate), `"title"` (session title, <= 30 chars) and the
 plan progress `"plan_done"`, `"plan_total"`, `"plan_cur"`, `"plan_next"` (plan_tracker.mjs, from the task-list tool calls).
 
-`POST /usage` (status line script `plugin/scripts/statusline.mjs`), every field optional except `v`:
+`POST /usage` (status line script of the Claude adapter, `statusline.mjs`), every field optional except `v`:
 `{"v":1,"session","ctx_pct","ctx_k","ctx_max_k","h5_pct","h5_reset_s","h5_rate10","h5_proj","h5_empty_s","d7_pct","d7_reset_s","d7_rate10","d7_proj","d7_empty_s"}`.
 Context of a known session (wins over the event estimate for 120 s) and the account-wide plan quotas with their pace
 (`*_rate10` = %/h x 10, `*_proj` = projected % at reset, `*_empty_s` = seconds to 100 % or -1). An unknown session

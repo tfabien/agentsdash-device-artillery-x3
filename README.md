@@ -1,5 +1,7 @@
 # ESP32 gadget with the screen of an Artillery X3
 
+A device of [agentsdash](https://github.com/tfabien/agentsdash) (the hub and its browser page). The hub relays events to it as described in the core's `docs/device-protocol.md`.
+
 A physical copy of the agentsdash screen: the 4.3" touchscreen of an Artillery X3 3D printer, driven by an ESP32, with a buzzer.
 It shows what the browser page shows, and it works on its own: it keeps the state of all sessions and draws the screen itself.
 The screen was used because it was at hand; it is not sold on its own (see the [TODO](#todo)).
@@ -18,7 +20,7 @@ gadget (no hub, no page, no quota polling).
 hub --HTTP relay--> ESP32 --UART--> TJC screen (touch, buzzer)
 ```
 
-![Wiring](../../docs/images/wiring.svg)
+![Wiring](docs/images/wiring.svg)
 
 Wiring: ESP32 `D16` <- screen TX, `D17` -> screen RX, `GND`, `VIN` (5 V) -> screen `VCC`. The 4-pin connector of the screen is
 marked `VCC=5V`, `TX`, `RX`, `GND`: measure it with a multimeter, do not trust the wire colors.

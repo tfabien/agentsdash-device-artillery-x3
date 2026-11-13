@@ -1,7 +1,7 @@
 """Spike of the screen redesign: background picture 16 and text in the new fonts (2 = f12, 3 = f14 bold).
 
 Sends raw commands through POST /debug/hmi (test builds with the screen layer: esp32dev_test_screen).
-Usage: python devices/artillery-x3-esp32/scripts/hmi_decor_spike.py <ip>     then  --release  to give the screen back to the firmware.
+Usage: python scripts/hmi_decor_spike.py <ip>     then  --release  to give the screen back to the firmware.
 """
 import json
 import sys

@@ -5,7 +5,7 @@ Needs hmi_bridge on the ESP32 (screen side 9600 baud). Sends sendxy=1, then prin
 screen sends for 30 s. Tap the four corners, then the center, slowly. Expected with raw coordinates:
 frames like 67 xh xl yh yl state FF FF FF (68 for sleep mode). Nothing at all means option (a): touch
 zones (hotspot components) are needed in the screen project.
-Usage: python devices/artillery-x3-esp32/scripts/hmi_touch_spike.py [COM3] [seconds]
+Usage: python scripts/hmi_touch_spike.py [COM3] [seconds]
 """
 import sys
 import time

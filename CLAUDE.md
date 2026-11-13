@@ -1,6 +1,6 @@
 # ESP32 gadget (Artillery X3 screen): working notes
 
-Hardware, screen protocol and firmware facts for this device. The product (hub, plugin) is described in the root `CLAUDE.md`.
+Hardware, screen protocol and firmware facts for this device. The product (the hub and the page) is the core repository https://github.com/tfabien/agentsdash; this repository is its device `agentsdash-device-artillery-x3`.
 Language: chat in French, code comments, docs and on-screen text in English. Some older `scripts/*.py` have French docstrings: translate when touched.
 
 ## Layout of this folder
@@ -11,7 +11,7 @@ Language: chat in French, code comments, docs and on-screen text in English. Som
 - `scripts/` - `scenario.py` (5 fake sessions, 12 sub-agents -> `POST /event` v2), `mock_agents.py` (old v0.1 events), `hmi_*.py` (test scripts through the bridge).
   `ux_mockup.html` - early mockup. `tools/make_sprites.py`, `make_decor.py`, `make_font_metrics.py` - generators. `tests/` - API tests on a real gadget.
 - `screen-hmi/` - the screen project: `agent-gadget.HMI`, `agent-gadget.tft` - current USART HMI project (one page, 4 fonts, 87 pictures, redesign
-  2026-11-11: `../../docs/superpowers/specs/2026-11-11-screen-redesign-design.md`). `blank.HMI`, `blank.tft` - baseline without pictures.
+  2026-11-11: the spec `docs/superpowers/specs/2026-11-11-screen-redesign-design.md` of the core repository). `blank.HMI`, `blank.tft` - baseline without pictures.
   `f24.zi`, `f16.zi`, `s16.zi`, `s20.zi` - the fonts. Pictures come from `tools/make_decor.py` (`assets/decor/`).
   `screen-hmi/guide/` - annotated screenshots of the USART HMI editor steps. `screen-hmi/USARTHMIsetup_latest/` - editor installer (not tracked).
 

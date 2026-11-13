@@ -2,7 +2,7 @@
 
 One 12x14 pixel look per role, written at scale 3 (36x42, picture ids 0..7) and scale 2 (24x28, ids 8..15).
 Solid black background: the editor's pictures have no transparency and the page background is black.
-Usage: python devices/artillery-x3-esp32/tools/make_sprites.py  (writes devices/artillery-x3-esp32/assets/sprites/ and a contact sheet)
+Usage: python tools/make_sprites.py  (writes assets/sprites/ and a contact sheet)
 """
 import os
 import struct
