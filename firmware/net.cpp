@@ -350,7 +350,7 @@ static void handleConfigPage() {
                         : String("Connected to <b>") + htmlEscape(WiFi.SSID()) + "</b> (" + WiFi.localIP().toString() + ")";
   String h = F("<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'>"
                "<title>Agent Gadget</title><style>body{font-family:system-ui,sans-serif;max-width:420px;margin:24px auto;padding:0 16px}"
-               "input,button{width:100%;padding:10px;margin:6px 0 16px;font-size:16px;box-sizing:border-box}"
+               "input,button,select{width:100%;padding:10px;margin:6px 0 16px;font-size:16px;box-sizing:border-box}"
                "button{background:#2563eb;color:#fff;border:0;border-radius:6px}.s{color:#555;font-size:14px}</style>"
                "<h2>Agent Gadget</h2><p class=s>");
   h += state;
@@ -359,6 +359,13 @@ static void handleConfigPage() {
   h += opts;
   h += F("</datalist><label>Password</label><input name=pass type=password placeholder='Leave empty for an open network'>"
          "<button>Save and restart</button></form>"
+         "<h3>Clock</h3><form method=POST action=/clock><label>Timezone</label><select name=zone>");
+  for (int i = 0; i < CLOCK_ZONE_COUNT; i++) {
+    h += String("<option value=") + i + (i == clockZoneIndex() ? " selected>" : ">") + CLOCK_ZONES[i].name + "</option>";
+  }
+  h += String("</select><label>Format</label><select name=h12><option value=0") + (clock12h() ? "" : " selected") + ">24 h</option>"
+       "<option value=1" + (clock12h() ? " selected" : "") + ">12 h</option></select>";
+  h += F("<button>Save clock</button></form>"
          "<p class=s>Firmware update: <a href=/update>/update</a> (user admin). "
          "To forget this Wi-Fi: hold the BOOT button for 3 s at power-up.</p>");
   server.send(200, "text/html", h);
@@ -376,6 +383,14 @@ static void handleSave() {
                                   "The gadget's address is shown on its screen.</p>"));
   delay(1500);
   ESP.restart();
+}
+
+static void handleClockSave() {          // POST /clock zone=<index>&h12=0|1: applied at once, kept in flash
+  int zone = server.arg("zone").toInt();
+  if (zone < 0 || zone >= CLOCK_ZONE_COUNT) { server.send(400, "text/plain", "Unknown timezone"); return; }
+  clockSetup(zone, server.arg("h12") == "1");
+  server.sendHeader("Location", "/config");
+  server.send(303, "text/plain", "");
 }
 
 // ---------- HTTP: firmware update from a browser (http://<ip>/update) ----------
@@ -552,6 +567,7 @@ server.on("/debug/stats", HTTP_GET, handleDebugStats);
 server.on("/debug/tft", HTTP_GET, handleDebugTft);
 #endif
   server.on("/config", HTTP_GET, handleConfigPage);
+  server.on("/clock", HTTP_POST, handleClockSave);
   server.on("/save", HTTP_POST, handleSave);
   server.on("/update", HTTP_GET, handleUpdateForm);
   server.on("/tft", HTTP_GET, handleTftForm);

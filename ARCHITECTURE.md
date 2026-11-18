@@ -40,7 +40,7 @@ creates nothing. 400 without `v`.
 States: `needs_you`, `error`, `your_turn`, `working`, `waiting_subs` (derived, leads only), `done`.
 
 Other endpoints: `POST /select {"session","agent","hold_ms"?}` (404 if unknown), `POST /dismiss {"session"}` (hide a session; a working, error or needs-you event brings it back; also the trash icon of the menu), `POST /settings {"sound":"all"|"ask"|"off"}` (buzzer mode, set by the hub; the speaker icon still works locally), `POST /reset`,
-`GET /config` (Wi-Fi), `GET /update` (firmware upload, user `admin`), `GET /tft` + `POST /tft?size=<bytes>`
+`GET /config` (Wi-Fi, clock timezone and 12/24 h via `POST /clock`, kept in flash), `GET /update` (firmware upload, user `admin`), `GET /tft` + `POST /tft?size=<bytes>`
 (screen `.tft` upload, same user: `tft_upload.cpp` speaks the TJC download protocol, drawing and touch pause meanwhile).
 
 Test builds only (`-DGADGET_DEBUG`, envs `esp32dev_test*`): `POST /debug/config {"isolate","done_ttl_ms","stale_ttl_ms","standby_ms","detail_ms","clock_off"}`
@@ -65,7 +65,7 @@ core never says what to redraw.
 | `layout.h/.cpp` | Pure geometry (spec 2026-11-11): title bar (name, session dots, caret), session menu rows, frame, lead panel, team header and rows (42 px for 1-4 sub-agents, 22 px for 5-7, 6 + "+N more" past 7), bottom bar, clock, sound button, `hitTest()`. |
 | `ui_state.h/.cpp` | Screen-only state: tapped agent detail (10 s), session menu (closes after 8 s), standby (5 min idle), team row order. |
 | `sound.h/.cpp` | Buzzer mode kept in flash: `all` (2 beeps on needs_you, 1 on your_turn), `ask` (needs_you only), `off`. A tap on the speaker icon (bottom bar) cycles it; the screen is driven by `beep <ms>`. |
-| `clock.h/.cpp` | NTP time, Europe/Paris. |
+| `clock.h/.cpp` | NTP time. Timezone list and 12/24 h format kept in flash (default Europe/Paris, 24 h). |
 | `font_metrics.h` | Generated pixel widths of fonts 2 and 3 (`tools/make_font_metrics.py`), used by `displayFit`. |
 | `display_hmi.cpp` | The UI on picture 16: top bar, lead panel (lead, context, plan, or the tapped agent detail), team rows, bottom bar (quotas, clock), standby clock (pictures 51..62), discreet animation (robot blink, pulsing needs-you bar). Durations are rewritten in place (no flicker). Implements `display.h`. |
 | `touch.h/.cpp` | Touch frames `67 xh xl yh yl st FF FF FF` -> `uiTap(x, y)` -> `hitTest` -> `modelSelect` (30 s hold). |
