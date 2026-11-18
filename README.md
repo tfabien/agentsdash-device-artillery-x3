@@ -72,7 +72,6 @@ HTTP API and wire format: [ARCHITECTURE.md](ARCHITECTURE.md). Tests (a gadget fl
 
 - **Test the USB relay of the hub on the hardware (minor).** `relay: {"mode":"serial","port":"COM3"}`, `hub/relay_serial.mjs` and the firmware line reader (`firmware/esp32_agent_gadget.ino`, `netSerialLine` in `firmware/net.cpp`) are unit-tested with a fake port and the firmware is flashed, but nothing was tried over a real cable. To do: `npm install serialport` in `hub/`, then `GADGET_PORT=COM3 python -m unittest tests.test_serial_in`, then a real session in serial mode (one program owns COM3: release it with `POST /serial/release` before `pio upload`).
 - **A screen that is easy to buy.** Support at least one common, cheap board with a screen (an ESP32 with a built-in TFT, an ESP32-S3 touch display) next to this one, with a shopping list. `firmware/display.h` already separates the UI from the screen backend; a new board would be a new folder under `devices/`.
-- **Clock settings**: choose the timezone (Europe/Paris is hard-coded) and the 24 h or 12 h format from the `/config` page, kept in flash.
 - Real photos of the device in the main README (the images there are screenshots of the page).
 - Check `xstr` text without background (`sta=3`) and the readability of the three context colors on the real panel.
 - Screen text is ASCII only: no accents until a font with them is added to the project.
